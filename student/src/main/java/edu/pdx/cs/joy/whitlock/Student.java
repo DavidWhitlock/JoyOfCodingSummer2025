@@ -43,7 +43,8 @@ public class Student extends Human {
    */
   @Override
   public String toString() {
-    return " has a GPA of " + String.format("%.2f", this.gpa);
+    return " has a GPA of " + String.format("%.2f", this.gpa) +
+           " says \"" + this.says() + "\".";
   }
 
   /**

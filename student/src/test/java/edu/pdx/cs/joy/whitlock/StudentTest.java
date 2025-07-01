@@ -51,4 +51,10 @@ public class StudentTest
     assertThat(sarah.toString(), containsString(" has a GPA of 3.50"));
   }
 
+  @Test
+  void toStringContainsWhatStudentSays() {
+    Student pat = createStudentNamed("Pat");
+    assertThat(pat.toString(), containsString(" says \"This class is too much work\""));
+  }
+
 }
