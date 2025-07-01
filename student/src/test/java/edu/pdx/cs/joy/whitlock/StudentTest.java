@@ -18,8 +18,17 @@ public class StudentTest
   @Test
   void studentNamedPatIsNamedPat() {
     String name = "Pat";
-    var pat = new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+    var pat = createStudentNamed(name);
     assertThat(pat.getName(), equalTo(name));
   }
 
+  private static Student createStudentNamed(String name) {
+    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+  }
+
+  @Test
+  void allStudentsSayThisClassIsTooMuchWork() {
+    var pat = createStudentNamed("Pat");
+    assertThat(pat.says(), equalTo("This class is too much work"));
+  }
 }
