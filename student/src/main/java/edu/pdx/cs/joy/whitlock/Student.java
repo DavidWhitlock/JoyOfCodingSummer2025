@@ -8,7 +8,9 @@ import java.util.ArrayList;
  * This class is represents a <code>Student</code>.                                 
  */                                                                                 
 public class Student extends Human {                                                
-                                                                                    
+
+  private final double gpa;
+
   /**                                                                               
    * Creates a new <code>Student</code>                                             
    *                                                                                
@@ -24,6 +26,7 @@ public class Student extends Human {
    */                                                                               
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
+    this.gpa = gpa;
   }
 
   /**                                                                               
@@ -40,7 +43,7 @@ public class Student extends Human {
    */
   @Override
   public String toString() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return " has a GPA of " + String.format("%.2f", this.gpa);
   }
 
   /**
