@@ -37,7 +37,8 @@ public class Student extends Human {
   /**                                                                               
    * Returns a <code>String</code> that describes this                              
    * <code>Student</code>.                                                          
-   */                                                                               
+   */
+  @Override
   public String toString() {
     throw new UnsupportedOperationException("Not implemented yet");
   }
@@ -48,6 +49,6 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    System.err.println("Missing command line arguments");
+    System.err.println("Missing information about the Student");
   }
 }
