@@ -35,7 +35,6 @@ public class StudentTest
     assertThat(pat.says(), equalTo("This class is too much work"));
   }
 
-  @Disabled
   @Test
   void daveStudentHasExpectedToString() {
     ArrayList<String> classes = new ArrayList<>(List.of("Algorithms", "Operating Systems", "Java"));
