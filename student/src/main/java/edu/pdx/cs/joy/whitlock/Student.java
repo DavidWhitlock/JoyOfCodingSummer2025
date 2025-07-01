@@ -43,7 +43,7 @@ public class Student extends Human {
    */
   @Override
   public String toString() {
-    return "Dave has a GPA of " + String.format("%.2f", this.gpa) +
+    return getName() + " has a GPA of " + String.format("%.2f", this.gpa) +
            " and is taking 3 classes: Algorithms, Operating Systems, and Java.  He" +
            " says \"" + this.says() + "\".";
   }

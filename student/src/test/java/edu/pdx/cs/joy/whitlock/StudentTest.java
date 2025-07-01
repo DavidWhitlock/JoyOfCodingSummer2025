@@ -56,4 +56,11 @@ public class StudentTest
     assertThat(pat.toString(), containsString(" says \"This class is too much work\""));
   }
 
+  @Test
+  void toStringContainsStudentName() {
+    String name = "Pat";
+    Student pat = createStudentNamed(name);
+    assertThat(pat.toString(), containsString(name + " "));
+  }
+
 }
