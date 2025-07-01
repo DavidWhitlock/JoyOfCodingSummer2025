@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Student extends Human {                                                
 
   private final double gpa;
+  private final ArrayList<String> classes;
 
   /**                                                                               
    * Creates a new <code>Student</code>                                             
@@ -27,6 +28,7 @@ public class Student extends Human {
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
     this.gpa = gpa;
+    this.classes = classes;
   }
 
   /**                                                                               
@@ -43,8 +45,9 @@ public class Student extends Human {
    */
   @Override
   public String toString() {
+    int numberOfClasses = this.classes.size();
     return getName() + " has a GPA of " + String.format("%.2f", this.gpa) +
-           " and is taking 3 classes: Algorithms, Operating Systems, and Java.  He" +
+           " and is taking " + numberOfClasses + " classes: Algorithms, Operating Systems, and Java.  He" +
            " says \"" + this.says() + "\".";
   }
 

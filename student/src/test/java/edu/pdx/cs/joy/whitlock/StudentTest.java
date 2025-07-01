@@ -63,4 +63,10 @@ public class StudentTest
     assertThat(pat.toString(), containsString(name + " "));
   }
 
+  @Test
+  void toStringContainsNumberOfClasses() {
+    ArrayList<String> classes = new ArrayList<>(List.of("Algorithms", "Operating Systems"));
+    Student evilDave = new Student("Dave", classes, 3.64, "male");
+    assertThat(evilDave.toString(), containsString(" is taking 2 classes"));
+  }
 }
