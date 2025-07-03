@@ -44,4 +44,18 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardOut(), containsString(name));
   }
 
+  @Test
+  void missingGpaPrintsMessageToStandardError() {
+    MainMethodResult result = invokeMain(Student.class, "Dave", "other");
+    assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Missing GPA"));
+  }
+
+  @Test
+  void gpaIsPrintedToStandardOutput() {
+    String gpa = "3.64";
+    MainMethodResult result = invokeMain(Student.class, "Dave", "male", gpa, "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getTextWrittenToStandardOut(), containsString(gpa));
+  }
+
 }

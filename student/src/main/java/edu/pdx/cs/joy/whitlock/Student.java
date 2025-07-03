@@ -59,12 +59,17 @@ public class Student extends Human {
   public static void main(String[] args) {
     String name = null;
     String gender = null;
+    String gpaString = null;
 
     for (String arg : args) {
       if (name == null) {
         name = arg;
+
       } else if (gender == null) {
         gender = arg;
+
+      } else if (gpaString == null) {
+        gpaString = arg;
       }
     }
 
@@ -75,9 +80,14 @@ public class Student extends Human {
     } else if (gender == null) {
       System.err.println("Missing gender");
       return;
+
+    } else if (gpaString == null) {
+      System.err.println("Missing GPA");
+      return;
     }
 
-    Student student = new Student(name, new ArrayList<>(), 1.23, gender);
+    double gpa = Double.parseDouble(gpaString);
+    Student student = new Student(name, new ArrayList<>(), gpa, gender);
     System.out.println(student);
   }
 }
