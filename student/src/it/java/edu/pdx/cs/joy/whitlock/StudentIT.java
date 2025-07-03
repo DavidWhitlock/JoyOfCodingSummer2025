@@ -30,4 +30,11 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardOut(), containsString(expected));
   }
 
+  @Test
+  void missingGenderPrintsMessageToStandardError() {
+    MainMethodResult result = invokeMain(Student.class, "Dave");
+    assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Missing gender"));
+  }
+
 }
