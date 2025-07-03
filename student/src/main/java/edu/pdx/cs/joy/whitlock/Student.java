@@ -86,7 +86,15 @@ public class Student extends Human {
       return;
     }
 
-    double gpa = Double.parseDouble(gpaString);
+    double gpa;
+    try {
+      gpa = Double.parseDouble(gpaString);
+
+    } catch (NumberFormatException ex) {
+      System.err.println("Invalid GPA: " + gpaString);
+      return;
+    }
+
     Student student = new Student(name, new ArrayList<>(), gpa, gender);
     System.out.println(student);
   }

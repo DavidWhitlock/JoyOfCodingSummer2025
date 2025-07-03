@@ -58,4 +58,12 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardOut(), containsString(gpa));
   }
 
+  @Test
+  void malformedGpaPrintsMessageToStandardError() {
+    String gpa = "blah";
+    MainMethodResult result = invokeMain(Student.class, "Dave", "male", gpa, "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Invalid GPA: " + gpa));
+  }
+
 }
