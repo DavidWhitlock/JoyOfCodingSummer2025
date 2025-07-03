@@ -37,4 +37,11 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardError(), containsString("Missing gender"));
   }
 
+  @Test
+  void nameIsPrintedToStandardOutput() {
+    String name = "Dave";
+    MainMethodResult result = invokeMain(Student.class, name, "male", "3.64", "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getTextWrittenToStandardOut(), containsString(name));
+  }
+
 }

@@ -77,5 +77,7 @@ public class Student extends Human {
       return;
     }
 
+    Student student = new Student(name, new ArrayList<>(), 1.23, gender);
+    System.out.println(student);
   }
 }
