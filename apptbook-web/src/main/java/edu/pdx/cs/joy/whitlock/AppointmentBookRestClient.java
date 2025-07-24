@@ -68,8 +68,8 @@ public class AppointmentBookRestClient {
   }
 
   @VisibleForTesting
-  Response postToMyURL(Map<String, String> dictionaryEntries) throws IOException {
-    return http.post(dictionaryEntries);
+  Response postToMyURL(Map<String, String> urlParametersKeysAndValues) throws IOException {
+    return http.post(urlParametersKeysAndValues);
   }
 
   public void removeAllDictionaryEntries() throws IOException {
