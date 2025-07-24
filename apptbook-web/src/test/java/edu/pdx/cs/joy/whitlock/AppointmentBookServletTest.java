@@ -109,4 +109,20 @@ public class AppointmentBookServletTest {
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
   }
 
+  @Test
+  void nonExistentAppointmentBookReturnsNotFound() throws ServletException, IOException {
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+    String owner = "NON_EXISTENT_OWNER";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AppointmentBookServlet.OWNER_PARAMETER)).thenReturn(owner);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    servlet.doGet(request, response);
+
+    verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
+  }
+
 }

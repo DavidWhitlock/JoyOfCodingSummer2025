@@ -37,20 +37,20 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test2EmptyServer() {
+    void test2MissingOwnerName() {
         MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Missing owner"));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
+        assertThat(out, out, equalTo(""));
     }
 
     @Test
-    void test3NoDefinitionsThrowsAppointmentBookRestException() {
-        String word = "WORD";
+    void test3NoAppointmentsThrowsAppointmentBookRestException() {
+        String owner = "WORD";
         try {
-            invokeMain(Project4.class, HOSTNAME, PORT, word);
+            invokeMain(Project4.class, HOSTNAME, PORT, owner);
             fail("Expected a RestException to be thrown");
 
         } catch (UncaughtExceptionInMain ex) {
@@ -76,13 +76,7 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+        assertThat(out, out, containsString("WORD's appointment book with 1 appointments"));
 
-        result = invokeMain( Project4.class, HOSTNAME, PORT );
-
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
-
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
     }
 }

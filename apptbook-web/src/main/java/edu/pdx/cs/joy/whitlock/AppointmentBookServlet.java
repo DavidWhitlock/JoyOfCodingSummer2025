@@ -110,6 +110,7 @@ public class AppointmentBookServlet extends HttpServlet
         log("DELETE all dictionary entries");
 
         this.dictionary.clear();
+        this.appointmentBooks.clear();
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allDictionaryEntriesDeleted());
