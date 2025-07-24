@@ -38,7 +38,15 @@ public class AppointmentBookServlet extends HttpServlet
         String owner = getParameter(OWNER_PARAMETER, request );
         if (owner != null) {
             log("GET " + owner);
-            writeDefinition(owner, response);
+            AppointmentBook book = this.appointmentBooks.get(owner);
+            if (book == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            } else {
+                PrintWriter pw = response.getWriter();
+                TextDumper dumper = new TextDumper(pw);
+                dumper.dump(book);
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
 
         } else {
             missingRequiredParameter(response, OWNER_PARAMETER);
@@ -69,11 +77,7 @@ public class AppointmentBookServlet extends HttpServlet
 
         log("POST " + owner + " -> " + description);
 
-        AppointmentBook book = this.appointmentBooks.get(owner);
-        if (book == null) {
-            book = new AppointmentBook(owner);
-            this.appointmentBooks.put(owner, book);
-        }
+        AppointmentBook book = getExistingAppointmentBook(owner);
         book.addAppointment(new Appointment(description));
 
         this.dictionary.put(owner, description);
@@ -83,6 +87,15 @@ public class AppointmentBookServlet extends HttpServlet
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
+    }
+
+    private AppointmentBook getExistingAppointmentBook(String owner) {
+        AppointmentBook book = this.appointmentBooks.get(owner);
+        if (book == null) {
+            book = new AppointmentBook(owner);
+            this.appointmentBooks.put(owner, book);
+        }
+        return book;
     }
 
     /**
@@ -182,5 +195,9 @@ public class AppointmentBookServlet extends HttpServlet
 
     public AppointmentBook getAppointmentBook(String owner) {
         return this.appointmentBooks.get(owner);
+    }
+
+    public void addAppointment(String owner, String description) {
+        getExistingAppointmentBook(owner).addAppointment(new Appointment(description));
     }
 }

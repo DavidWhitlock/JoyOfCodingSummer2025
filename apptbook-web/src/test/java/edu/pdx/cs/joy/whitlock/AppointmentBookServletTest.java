@@ -1,5 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
+import edu.pdx.cs.joy.ParserException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -70,6 +72,41 @@ public class AppointmentBookServletTest {
     AppointmentBook book = servlet.getAppointmentBook(owner);
     assertThat(book.getOwnerName(), equalTo(owner));
     assertThat(book.getAppointments().iterator().next().getDescription(), equalTo(description));
+  }
+
+  @Test
+  void fetchAppointmentBookForOwner() throws ServletException, IOException, ParserException {
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+    String owner = "TEST OWNER";
+    String description = "TEST DESCRIPTION";
+
+    // Add an appointment to the book
+    servlet.addAppointment(owner, description);
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AppointmentBookServlet.OWNER_PARAMETER)).thenReturn(owner);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request, response);
+
+    String text = stringWriter.toString();
+    TextParser parser = new TextParser(new StringReader(text));
+    AppointmentBook book = parser.parse();
+    assertThat(book.getOwnerName(), equalTo(owner));
+    assertThat(book.getAppointments().iterator().next().getDescription(), equalTo(description));
+
+    ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+    verify(response).setStatus(statusCode.capture());
+
+    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
   }
 
 }
