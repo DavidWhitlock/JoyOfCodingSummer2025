@@ -25,28 +25,22 @@ Hello, everyone!
 </h1>
 
 <h2>
-    These forms let you interact with the simple word/definition REST API that
-    is created by the project archetype.
+    These forms let you interact with the Appointment Book REST API.
 </h2>
 
 
 <div>
     <form method="get" action="appointments">
-        List all word/definition pairs <input type="submit" definition="Submit"/>
-    </form>
-</div>
-
-<div>
-    <form method="get" action="appointments">
-        List definition for word <input name="word" type="text" size="10" title="word"/>
+        List appointments owned by <input name="owner" type="text" size="10" title="owner"/>
         <input type="submit" definition="Submit"/>
     </form>
 </div>
 
 <div>
     <form method="post" action="appointments">
-        Create a new word/definition pair <input name="word" type="text" size="10" title="word"/> /
-        <input name="definition" type="text" size="10" title="definition"/>
+        Create a new appointment owned by <input name="owner" type="text" size="10" title="owner"/> /
+        with description
+        <input name="description" type="text" size="10" title="description"/>
         <input type="submit" definition="Submit"/>
     </form>
 </div>

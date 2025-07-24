@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class AppointmentBookServlet extends HttpServlet
 {
-    static final String WORD_PARAMETER = "word";
-    static final String DEFINITION_PARAMETER = "definition";
+    static final String OWNER_PARAMETER = "owner";
+    static final String DESCRIPTION_PARAMETER = "description";
 
     private final Map<String, String> dictionary = new HashMap<>();
 
@@ -34,7 +34,7 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter( WORD_PARAMETER, request );
+        String word = getParameter(OWNER_PARAMETER, request );
         if (word != null) {
             log("GET " + word);
             writeDefinition(word, response);
@@ -55,15 +55,15 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter(WORD_PARAMETER, request );
+        String word = getParameter(OWNER_PARAMETER, request );
         if (word == null) {
-            missingRequiredParameter(response, WORD_PARAMETER);
+            missingRequiredParameter(response, OWNER_PARAMETER);
             return;
         }
 
-        String definition = getParameter(DEFINITION_PARAMETER, request );
+        String definition = getParameter(DESCRIPTION_PARAMETER, request );
         if ( definition == null) {
-            missingRequiredParameter( response, DEFINITION_PARAMETER );
+            missingRequiredParameter( response, DESCRIPTION_PARAMETER);
             return;
         }
 
