@@ -21,7 +21,7 @@ public class AppointmentBookServlet extends HttpServlet
     static final String OWNER_PARAMETER = "owner";
     static final String DESCRIPTION_PARAMETER = "description";
 
-    private final Map<String, String> dictionary = new HashMap<>();
+    private final Map<String, String> appointmentBooks = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -69,7 +69,7 @@ public class AppointmentBookServlet extends HttpServlet
 
         log("POST " + word + " -> " + definition);
 
-        this.dictionary.put(word, definition);
+        this.appointmentBooks.put(word, definition);
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.definedWordAs(word, definition));
@@ -89,7 +89,7 @@ public class AppointmentBookServlet extends HttpServlet
 
         log("DELETE all dictionary entries");
 
-        this.dictionary.clear();
+        this.appointmentBooks.clear();
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allDictionaryEntriesDeleted());
@@ -117,7 +117,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with {@link TextDumper}
      */
     private void writeDefinition(String word, HttpServletResponse response) throws IOException {
-        String definition = this.dictionary.get(word);
+        String definition = this.appointmentBooks.get(word);
 
         if (definition == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -142,7 +142,7 @@ public class AppointmentBookServlet extends HttpServlet
     {
         PrintWriter pw = response.getWriter();
         TextDumper dumper = new TextDumper(pw);
-        dumper.dump(dictionary);
+        dumper.dump(appointmentBooks);
 
         response.setStatus( HttpServletResponse.SC_OK );
     }
@@ -165,7 +165,7 @@ public class AppointmentBookServlet extends HttpServlet
 
     @VisibleForTesting
     String getDefinition(String word) {
-        return this.dictionary.get(word);
+        return this.appointmentBooks.get(word);
     }
 
     @Override

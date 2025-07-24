@@ -1,5 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
+import edu.pdx.cs.joy.AppointmentBookParser;
 import edu.pdx.cs.joy.ParserException;
 
 import java.io.BufferedReader;
@@ -10,14 +11,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextParser {
+public class TextParser implements AppointmentBookParser<AppointmentBook> {
   private final Reader reader;
 
   public TextParser(Reader reader) {
     this.reader = reader;
   }
 
-  public Map<String, String> parse() throws ParserException {
+  public Map<String, String> parseAsMap() throws ParserException {
     Pattern pattern = Pattern.compile("(.*) : (.*)");
 
     Map<String, String> map = new HashMap<>();
@@ -43,5 +44,23 @@ public class TextParser {
     }
 
     return map;
+  }
+
+  @Override
+  public AppointmentBook parse() throws ParserException {
+    try (
+      BufferedReader br = new BufferedReader(this.reader)
+    ) {
+
+      for (String line = br.readLine(); line != null; line = br.readLine()) {
+        String owner = line;
+        return new AppointmentBook(owner);
+      }
+
+      throw new ParserException("No owner line found in the text input");
+
+    } catch (IOException e) {
+      throw new ParserException("While parsing dictionary", e);
+    }
   }
 }

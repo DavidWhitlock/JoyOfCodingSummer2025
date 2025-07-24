@@ -47,7 +47,7 @@ public class AppointmentBookRestClient {
     throwExceptionIfNotOkayHttpStatus(response);
 
     TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parse();
+    return parser.parseAsMap();
   }
 
   /**
@@ -59,7 +59,7 @@ public class AppointmentBookRestClient {
     String content = response.getContent();
 
     TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse().get(word);
+    return parser.parseAsMap().get(word);
   }
 
   public void addDictionaryEntry(String word, String definition) throws IOException {
