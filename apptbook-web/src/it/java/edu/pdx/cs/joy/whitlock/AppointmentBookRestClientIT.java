@@ -29,27 +29,21 @@ class AppointmentBookRestClientIT {
   }
 
   @Test
-  void test0RemoveAllDictionaryEntries() throws IOException {
+  void test0RemoveAllAppointmentBooks() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllAppointmentBooks();
   }
 
   @Test
-  void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
+  void test2AddAppointment() throws IOException, ParserException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-    Map<String, String> dictionary = client.getAllDictionaryEntries();
-    assertThat(dictionary.size(), equalTo(0));
-  }
+    String owner = "TEST WORD";
+    String description = "TEST DEFINITION";
+    client.addAppointment(owner, description);
 
-  @Test
-  void test2DefineOneWord() throws IOException, ParserException {
-    AppointmentBookRestClient client = newAppointmentBookRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
-
-    AppointmentBook book = client.getAppointmentBook(testWord);
-    assertThat(book, equalTo(testDefinition));
+    AppointmentBook book = client.getAppointmentBook(owner);
+    assertThat(book.getOwnerName(), equalTo(owner));
+    assertThat(book.getAppointments().iterator().next().getDescription(), equalTo(description));
   }
 
   @Test
@@ -57,7 +51,7 @@ class AppointmentBookRestClientIT {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String emptyString = "";
 
-    RestException ex = assertThrows(RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+    RestException ex = assertThrows(RestException.class, () -> client.addAppointment(emptyString, emptyString));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AppointmentBookServlet.OWNER_PARAMETER)));  }
 

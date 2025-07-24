@@ -39,16 +39,6 @@ public class AppointmentBookRestClient {
     this.http = http;
   }
 
-  /**
-   * Returns all dictionary entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-    Response response = http.get(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-
-    TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parseAsMap();
-  }
 
   /**
    * Returns the definition for the given word
@@ -62,8 +52,8 @@ public class AppointmentBookRestClient {
     return parser.parse();
   }
 
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = postToMyURL(Map.of(AppointmentBookServlet.OWNER_PARAMETER, word, AppointmentBookServlet.DESCRIPTION_PARAMETER, definition));
+  public void addAppointment(String owner, String description) throws IOException {
+    Response response = postToMyURL(Map.of(AppointmentBookServlet.OWNER_PARAMETER, owner, AppointmentBookServlet.DESCRIPTION_PARAMETER, description));
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
@@ -72,7 +62,7 @@ public class AppointmentBookRestClient {
     return http.post(urlParametersKeysAndValues);
   }
 
-  public void removeAllDictionaryEntries() throws IOException {
+  public void removeAllAppointmentBooks() throws IOException {
     Response response = http.delete(Map.of());
     throwExceptionIfNotOkayHttpStatus(response);
   }

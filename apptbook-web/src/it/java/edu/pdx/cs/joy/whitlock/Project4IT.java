@@ -27,7 +27,7 @@ class Project4IT extends InvokeMainTestCase {
     @Test
     void test0RemoveAllMappings() throws IOException {
       AppointmentBookRestClient client = new AppointmentBookRestClient(HOSTNAME, Integer.parseInt(PORT));
-      client.removeAllDictionaryEntries();
+      client.removeAllAppointmentBooks();
     }
 
     @Test

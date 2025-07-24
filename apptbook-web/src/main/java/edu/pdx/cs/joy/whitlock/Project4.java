@@ -18,8 +18,8 @@ public class Project4 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String owner = null;
+        String description = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -28,11 +28,11 @@ public class Project4 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (word == null) {
-                word = arg;
+            } else if (owner == null) {
+                owner = arg;
 
-            } else if (definition == null) {
-                definition = arg;
+            } else if (description == null) {
+                description = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -61,23 +61,17 @@ public class Project4 {
 
         String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+            if (owner == null) {
+                error("Missing owner");
+                return;
 
-            } else if (definition == null) {
-                // Print all dictionary entries
-                AppointmentBook book = client.getAppointmentBook(word);
+            } else if (description == null) {
+                AppointmentBook book = client.getAppointmentBook(owner);
                 message = book.toString();
 
             } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
+                client.addAppointment(owner, description);
+                message = Messages.definedWordAs(owner, description);
             }
 
         } catch (IOException | ParserException ex ) {
