@@ -48,8 +48,8 @@ class AppointmentBookRestClientIT {
     String testDefinition = "TEST DEFINITION";
     client.addDictionaryEntry(testWord, testDefinition);
 
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
+    AppointmentBook book = client.getAppointmentBook(testWord);
+    assertThat(book, equalTo(testDefinition));
   }
 
   @Test

@@ -17,18 +17,22 @@ import static org.mockito.Mockito.when;
 public class AppointmentBookRestClientTest {
 
   @Test
-  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
-    Map<String, String> dictionary = Map.of("One", "1", "Two", "2");
+  void getAppointmentBookPerformsHttpGetWithOwnerParameter() throws ParserException, IOException {
+    String owner = "TEST OWNER";
+    String description = "TEST DESCRIPTION";
+
+    AppointmentBook book = new AppointmentBook(owner);
+    book.addAppointment(new Appointment(description));
 
     HttpRequestHelper http = mock(HttpRequestHelper.class);
-    when(http.get(eq(Map.of()))).thenReturn(dictionaryAsText(dictionary));
+    when(http.get(eq(Map.of(AppointmentBookServlet.OWNER_PARAMETER, owner)))).thenReturn(appointmentBookAsText(book));
 
     AppointmentBookRestClient client = new AppointmentBookRestClient(http);
 
-    assertThat(client.getAllDictionaryEntries(), equalTo(dictionary));
+    assertThat(client.getAppointmentBook(owner), equalTo(book));
   }
 
-  private HttpRequestHelper.Response dictionaryAsText(Map<String, String> dictionary) {
+  private HttpRequestHelper.Response appointmentBookAsText(AppointmentBook dictionary) {
     StringWriter writer = new StringWriter();
     new TextDumper(writer).dump(dictionary);
 

@@ -71,7 +71,8 @@ public class Project4 {
 
             } else if (definition == null) {
                 // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+                AppointmentBook book = client.getAppointmentBook(word);
+                message = book.toString();
 
             } else {
                 // Post the word/definition pair

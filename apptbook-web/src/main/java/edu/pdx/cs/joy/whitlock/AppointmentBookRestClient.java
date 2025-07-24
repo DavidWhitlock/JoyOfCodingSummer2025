@@ -53,13 +53,13 @@ public class AppointmentBookRestClient {
   /**
    * Returns the definition for the given word
    */
-  public String getDefinition(String word) throws IOException, ParserException {
+  public AppointmentBook getAppointmentBook(String word) throws IOException, ParserException {
     Response response = http.get(Map.of(AppointmentBookServlet.OWNER_PARAMETER, word));
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
 
     TextParser parser = new TextParser(new StringReader(content));
-    return parser.parseAsMap().get(word);
+    return parser.parse();
   }
 
   public void addDictionaryEntry(String word, String definition) throws IOException {
