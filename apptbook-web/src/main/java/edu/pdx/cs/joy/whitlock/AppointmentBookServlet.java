@@ -21,7 +21,8 @@ public class AppointmentBookServlet extends HttpServlet
     static final String OWNER_PARAMETER = "owner";
     static final String DESCRIPTION_PARAMETER = "description";
 
-    private final Map<String, String> appointmentBooks = new HashMap<>();
+    private final Map<String, String> dictionary = new HashMap<>();
+    private final Map<String, AppointmentBook> appointmentBooks = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -34,14 +35,13 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter(OWNER_PARAMETER, request );
-        if (word != null) {
-            log("GET " + word);
-            writeDefinition(word, response);
+        String owner = getParameter(OWNER_PARAMETER, request );
+        if (owner != null) {
+            log("GET " + owner);
+            writeDefinition(owner, response);
 
         } else {
-            log("GET all dictionary entries");
-            writeAllDictionaryEntries(response);
+            missingRequiredParameter(response, OWNER_PARAMETER);
         }
     }
 
@@ -55,24 +55,31 @@ public class AppointmentBookServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter(OWNER_PARAMETER, request );
-        if (word == null) {
+        String owner = getParameter(OWNER_PARAMETER, request );
+        if (owner == null) {
             missingRequiredParameter(response, OWNER_PARAMETER);
             return;
         }
 
-        String definition = getParameter(DESCRIPTION_PARAMETER, request );
-        if ( definition == null) {
+        String description = getParameter(DESCRIPTION_PARAMETER, request );
+        if ( description == null) {
             missingRequiredParameter( response, DESCRIPTION_PARAMETER);
             return;
         }
 
-        log("POST " + word + " -> " + definition);
+        log("POST " + owner + " -> " + description);
 
-        this.appointmentBooks.put(word, definition);
+        AppointmentBook book = this.appointmentBooks.get(owner);
+        if (book == null) {
+            book = new AppointmentBook(owner);
+            this.appointmentBooks.put(owner, book);
+        }
+        book.addAppointment(new Appointment(description));
+
+        this.dictionary.put(owner, description);
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.definedWordAs(word, definition));
+        pw.println(Messages.definedWordAs(owner, description));
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
@@ -89,7 +96,7 @@ public class AppointmentBookServlet extends HttpServlet
 
         log("DELETE all dictionary entries");
 
-        this.appointmentBooks.clear();
+        this.dictionary.clear();
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allDictionaryEntriesDeleted());
@@ -117,7 +124,7 @@ public class AppointmentBookServlet extends HttpServlet
      * The text of the message is formatted with {@link TextDumper}
      */
     private void writeDefinition(String word, HttpServletResponse response) throws IOException {
-        String definition = this.appointmentBooks.get(word);
+        String definition = this.dictionary.get(word);
 
         if (definition == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -142,7 +149,7 @@ public class AppointmentBookServlet extends HttpServlet
     {
         PrintWriter pw = response.getWriter();
         TextDumper dumper = new TextDumper(pw);
-        dumper.dump(appointmentBooks);
+        dumper.dump(dictionary);
 
         response.setStatus( HttpServletResponse.SC_OK );
     }
@@ -165,11 +172,15 @@ public class AppointmentBookServlet extends HttpServlet
 
     @VisibleForTesting
     String getDefinition(String word) {
-        return this.appointmentBooks.get(word);
+        return this.dictionary.get(word);
     }
 
     @Override
     public void log(String msg) {
       System.out.println(msg);
+    }
+
+    public AppointmentBook getAppointmentBook(String owner) {
+        return this.appointmentBooks.get(owner);
     }
 }
