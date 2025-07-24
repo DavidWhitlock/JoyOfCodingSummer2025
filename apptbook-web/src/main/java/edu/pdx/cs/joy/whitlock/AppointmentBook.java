@@ -2,14 +2,17 @@ package edu.pdx.cs.joy.whitlock;
 
 import edu.pdx.cs.joy.AbstractAppointmentBook;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
 public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
   private final String owner;
+  private final Collection<Appointment> appointments;
 
   public AppointmentBook(String owner) {
     this.owner = owner;
+    appointments = new ArrayList<>();
   }
 
   @Override
@@ -19,22 +22,22 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
 
   @Override
   public Collection<Appointment> getAppointments() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return appointments;
   }
 
   @Override
-  public void addAppointment(Appointment appt) {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+  public void addAppointment(Appointment appointment) {
+    this.appointments.add(appointment);
   }
 
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof AppointmentBook book)) return false;
-    return Objects.equals(owner, book.owner);
+    return Objects.equals(owner, book.owner) && Objects.equals(appointments, book.appointments);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(owner);
+    return Objects.hash(owner, appointments);
   }
 }

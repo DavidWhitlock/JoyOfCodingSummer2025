@@ -52,12 +52,23 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
       BufferedReader br = new BufferedReader(this.reader)
     ) {
 
+      AppointmentBook book = null;
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        String owner = line;
-        return new AppointmentBook(owner);
+        if (book == null) {
+          book = new AppointmentBook(line);
+
+        } else {
+          Appointment appointment = new Appointment(line);
+          book.addAppointment(appointment);
+        }
       }
 
-      throw new ParserException("No owner line found in the text input");
+      if (book != null) {
+        return book;
+
+      } else {
+        throw new ParserException("No owner line found in the text input");
+      }
 
     } catch (IOException e) {
       throw new ParserException("While parsing dictionary", e);

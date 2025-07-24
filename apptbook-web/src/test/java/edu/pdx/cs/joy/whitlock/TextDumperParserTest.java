@@ -30,10 +30,11 @@ public class TextDumperParserTest {
     return parser.parse();
   }
 
-//  @Test
-//  void dumpedTextCanBeParsed() throws ParserException {
-//    Map<String, String> map = Map.of("one", "1", "two", "2");
-//    Map<String, String> read = dumpAndParse(map);
-//    assertThat(read, equalTo(map));
-//  }
+  @Test
+  void dumpedTextCanBeParsed() throws ParserException {
+    AppointmentBook appointmentBook = new AppointmentBook("Test Appointment Book");
+    appointmentBook.addAppointment(new Appointment("Doctor's Appointment"));
+    AppointmentBook read = dumpAndParse(appointmentBook);
+    assertThat(read, equalTo(appointmentBook));
+  }
 }
