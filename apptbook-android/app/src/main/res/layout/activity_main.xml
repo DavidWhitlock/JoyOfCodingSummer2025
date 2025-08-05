@@ -19,12 +19,13 @@
 
     <Button
         android:id="@+id/button"
+        android:onClick="showCalculator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_calculator"
-        app:layout_constraintTop_toBottomOf="@+id/hello"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hello" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
