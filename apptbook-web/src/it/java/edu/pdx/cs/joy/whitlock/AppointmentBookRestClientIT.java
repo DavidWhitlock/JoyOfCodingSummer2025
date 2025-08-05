@@ -39,7 +39,8 @@ class AppointmentBookRestClientIT {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String owner = "TEST WORD";
     String description = "TEST DEFINITION";
-    client.addAppointment(owner, description);
+    Appointment appointment = new Appointment(description);
+    client.addAppointment(owner, appointment);
 
     AppointmentBook book = client.getAppointmentBook(owner);
     assertThat(book.getOwnerName(), equalTo(owner));
@@ -51,7 +52,7 @@ class AppointmentBookRestClientIT {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String emptyString = "";
 
-    RestException ex = assertThrows(RestException.class, () -> client.addAppointment(emptyString, emptyString));
+    RestException ex = assertThrows(RestException.class, () -> client.addAppointment(emptyString, new Appointment(emptyString)));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AppointmentBookServlet.OWNER_PARAMETER)));  }
 

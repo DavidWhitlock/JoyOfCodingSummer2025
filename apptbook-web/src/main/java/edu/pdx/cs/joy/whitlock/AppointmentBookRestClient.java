@@ -52,8 +52,8 @@ public class AppointmentBookRestClient {
     return parser.parse();
   }
 
-  public void addAppointment(String owner, String description) throws IOException {
-    Response response = postToMyURL(Map.of(AppointmentBookServlet.OWNER_PARAMETER, owner, AppointmentBookServlet.DESCRIPTION_PARAMETER, description));
+  public void addAppointment(String owner, Appointment appointment) throws IOException {
+    Response response = postToMyURL(Map.of(AppointmentBookServlet.OWNER_PARAMETER, owner, AppointmentBookServlet.DESCRIPTION_PARAMETER, appointment.getDescription()));
     throwExceptionIfNotOkayHttpStatus(response);
   }
 

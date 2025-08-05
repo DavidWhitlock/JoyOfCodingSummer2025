@@ -70,7 +70,7 @@ public class Project4 {
                 message = book.toString();
 
             } else {
-                client.addAppointment(owner, description);
+                client.addAppointment(owner, new Appointment(description));
                 message = Messages.definedWordAs(owner, description);
             }
 
