@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Date;
+
 public class CalculatorActivity extends AppCompatActivity {
 
     static final String SUM_VALUE = "SUM";
@@ -28,6 +30,10 @@ public class CalculatorActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        Date currentTime = intent.getSerializableExtra(MainActivity.CURRENT_TIME, Date.class);
+        Toast.makeText(this, "The current time is: " + currentTime, Toast.LENGTH_LONG).show();
     }
 
     public void backToMain(View view) {

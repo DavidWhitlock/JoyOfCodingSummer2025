@@ -12,9 +12,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int GET_SUM = 42;
+    static final String CURRENT_TIME = "CURRENT TIME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showCalculator(View view) {
         Intent intent = new Intent(this, CalculatorActivity.class);
+        intent.putExtra(CURRENT_TIME, new Date());
         startActivityForResult(intent, GET_SUM);
     }
 
