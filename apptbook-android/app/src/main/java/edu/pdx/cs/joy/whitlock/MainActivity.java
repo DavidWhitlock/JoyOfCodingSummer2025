@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         Toast.makeText(this, "While writing sums file " + e, Toast.LENGTH_LONG).show();
                     }
+
+                    Appointment appointment = new Appointment(String.valueOf(sum));
+                    Toast.makeText(this, appointment.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         }
